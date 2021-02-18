@@ -5,7 +5,7 @@ import { createNewPullRequest } from '../bitbucket-api';
 export default class NewPullRequest extends Command {
   static description = 'Creates a new pull request';
 
-  static examples = [`$ bb new-pr master`];
+  static examples = [`$ bb new-pr main`];
 
   static args = [{ name: 'destination' }];
 
@@ -19,6 +19,9 @@ export default class NewPullRequest extends Command {
     } = this.parse(NewPullRequest);
 
     this.log(`Creating new pull request into '${destination}'`);
+
+    // TODO: add check that branch has remote and is not behind before openning PR
+
     const href = await createNewPullRequest(destination);
     await open(href);
   }
